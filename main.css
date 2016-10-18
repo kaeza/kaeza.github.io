@@ -1,0 +1,96 @@
+
+/*
+ * Palette:
+ * #2D882D rgba( 45,136, 45,1)
+ * #88CC88 rgba(136,204,136,1)
+ * #55AA55 rgba( 85,170, 85,1)
+ * #116611 rgba( 17,102, 17,1)
+ * #004400 rgba(  0, 68,  0,1)
+ */
+
+body {
+	font-family: sans-serif, sans;
+	color: #000000;
+	background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 2mm 5mm 2mm 5mm;
+	color: #FFFFFF;
+	background-color:  #55AA55;
+	text-shadow: 0 0 15px #000000;
+	box-shadow: 0 0 15px #000000;
+}
+
+p, h2, h3, h4, h5, h6, pre {
+	margin-left: 5mm;
+	margin-right: 5mm;
+}
+
+h2[id] a,
+h3[id] a,
+h4[id] a,
+h5[id] a,
+h6[id] a {
+	display: none;
+}
+
+h2:after, h3:after {
+	content: " ";
+	display: block;
+}
+h2:after { border: 2px solid black; }
+h3:after { border: 1px solid black; }
+
+h2[id]:hover a,
+h3[id]:hover a,
+h4[id]:hover a,
+h5[id]:hover a,
+h6[id]:hover a {
+	font-family: monospace;
+	font-size: 50%;
+	display: inline;
+}
+
+.profilepic {
+	width: 32px;
+	height: 32px;
+	margin: 2mm;
+	float: right;
+	box-shadow: 0 0 9px #000000;
+	border-radius: 8pz;
+	background-image: url("media/nothing.png");
+}
+
+a:link, a:hover, a:visited { text-decoration: none; }
+a:link { color: #116611; }
+a:hover { color: #55AA55; }
+a:visited { color: #004400; }
+
+h1#top a {
+	color: #FFFFFF;
+}
+
+code, pre {
+	background: #F0F0F0;
+}
+
+pre {
+	border: 1px solid rgba(0, 0, 0, .5);
+}
+
+code {
+	padding-left: .25em;
+	padding-right: .25em;
+}
+
+pre {
+	padding: .5em;
+	border-radius: .5em;
+}
+
+pre code { border: 0; padding: 0; }
