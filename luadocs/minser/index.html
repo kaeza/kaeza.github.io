@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>lua-minser</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>minser</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="topics/README.md.html">README</a></li>
+  <li><a href="topics/LICENSE.md.html">LICENSE</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>minser</code></h1>
+<p>Data serialization with minification.</p>
+<p> This module contains functions to serialize values to strings, and
+ deserialize these strings back to values. It is able to serialize
+ strings, numbers, booleans, nil values, and tables.</p>
+
+<p> Please note that not all tables can be serialized:</p>
+
+<ul>
+    <li>For keys, only strings, numbers, and booleans are supported. For values,
+    tables are supported in addition to the types for keys. An unsupported
+    type will cause <a href="index.html#dump">dump</a> to return nil.</li>
+    <li>Tables containing circular references will cause <a href="index.html#dump">dump</a> to return nil.</li>
+    <li>Tables referenced more than once in the tree will be serialized separately
+    each time, and will result in references to different tables.</li>
+</ul>
+
+<p> If a table has a <code>__minser</code> metamethod, the method is called passing it the
+ table itself and a table to cache seen sub-tables. The method should use the
+ <a href="index.html#repr">repr</a> function for sub fields, passing it the "seen" table.</p>
+
+<p> The serialized output is a chunk of Lua code yielding comparable values.</p>
+
+<p> The module does its best to generate the most compact code possible.</p>
+
+<p> Tables with consecutive numerical indices starting from 1 ("arrays") are
+ efficiently stored by omitting the key. Numerical indices after the first
+ nil element are output adorned.</p>
+
+
+<pre>
+<span class="keyword">local</span> t = { <span class="number">42</span>, <span class="string">"Hello!"</span>, <span class="keyword">nil</span>, <span class="string">"blah"</span> }
+<span class="global">print</span>(dump(t)) <span class="comment">--&gt; {42,"Hello!",[4]="blah"}</span>
+</pre>
+
+<p> Keys that are considered valid identifiers are output unadorned; other keys
+ (including reserved words) are serialized as <code>[key]</code>.</p>
+
+
+<pre>
+<span class="keyword">local</span> t = { a=<span class="number">1</span>, [<span class="string">"b"</span>]=<span class="number">2</span>, c=<span class="number">3</span> }
+t[<span class="string">"true"</span>] = <span class="keyword">true</span>
+<span class="comment">-- Note that this is just an example; the order of non-array
+</span><span class="comment">-- fields is random, so they may not appear as shown here.
+</span><span class="global">print</span>(serialize(t)) <span class="comment">--&gt; {a=1,b=2,c=3,["true"]=true}</span>
+</pre>
+
+<p> A key is a valid identifier if and only if all the following are true:</p>
+
+<ul>
+    <li>It is a string, and is not empty.</li>
+    <li>It consists of only letters, digits, or the underscore. Note that
+    since what Lua considers a "letter" or "digit" depends on the locale,
+    we take a shortcut and only take into account ASCII letters and digits.</li>
+    <li>It does not begin with a digit.</li>
+    <li>It is not a reserved word as listed in the <a href="https://www.lua.org/manual/5.3/manual.html#3.1"><em>Lexical Conventions</em></a>
+    section of the manual for Lua 5.3.</li>
+</ul>
+
+<p> The serialization algorithm only inserts a comma if needed, and it doesn't
+ add any spaces. The serialized data does not contain the <code>return</code> statement,
+ so this must be added if needed. The <a href="index.html#load">load</a> function provided by this module
+ takes care of adding it if needed.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT. See <a href="topics/LICENSE.md.html#">LICENSE.md</a> for details.</li>
+        <li><strong>Author</strong>: Diego Martínez <a href="https://github.com/kaeza">https://github.com/kaeza</a></li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#dump">dump (...)</a></td>
+	<td class="summary">Serialize values.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#repr">repr (val, seen)</a></td>
+	<td class="summary">Serialize a single value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#load">load (data, env)</a></td>
+	<td class="summary">Load serialized data.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "dump"></a>
+    <strong>dump (...)</strong>
+    </dt>
+    <dd>
+    Serialize values.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a>, <span class="type">number</span>, <span class="type">boolean</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+          Values to serialize.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Serialized data on success, nil on error.</li>
+        <li>
+           <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "repr"></a>
+    <strong>repr (val, seen)</strong>
+    </dt>
+    <dd>
+    Serialize a single value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">val</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a>, <span class="type">number</span>, <span class="type">boolean</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+          Value to serialize.
+        </li>
+        <li><span class="parameter">seen</span>
+            <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+          Cache of seen tables.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Serialized data on success, nil on error.</li>
+        <li>
+           <span class="types">optional <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Error message.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "load"></a>
+    <strong>load (data, env)</strong>
+    </dt>
+    <dd>
+    Load serialized data.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+          Serialized data.
+        </li>
+        <li><span class="parameter">env</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+          Environment for loaded chunk.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+        Number of returned values on success, nil on error.</li>
+        <li>
+           <span class="types"><span class="type">any</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        First value on success, error message on error.</li>
+        <li>
+           <span class="types"><span class="type">any</span></span>
+        Extra values are returned as extra results.</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2017-09-09 15:18:25 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
