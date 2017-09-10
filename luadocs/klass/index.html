@@ -29,6 +29,7 @@
 
 <h2>Contents</h2>
 <ul>
+<li><a href="#Fields">Fields</a></li>
 <li><a href="#Methods">Methods</a></li>
 <li><a href="#Metamethods">Metamethods</a></li>
 </ul>
@@ -38,48 +39,63 @@
 <ul class="nowrap">
   <li><strong>klass</strong></li>
 </ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="topics/README.md.html">README</a></li>
+  <li><a href="topics/LICENSE.md.html">LICENSE</a></li>
+</ul>
 
 </div>
 
 <div id="content">
 
 <h1>Class <code>klass</code></h1>
+<p>Minimalistic class system for Lua.</p>
 <p>
 
 </p>
-<p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT. See <a href="topics/LICENSE.md.html#">LICENSE.md</a> for details.</li>
+        <li><strong>Author</strong>: Diego Martínez <a href="https://github.com/kaeza">https://github.com/kaeza</a></li>
+    </ul>
 
-</p>
 
-
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#klass.__name">klass.__name</a></td>
+	<td class="summary">Name of the class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#klass.__super">klass.__super</a></td>
+	<td class="summary">Superclass of the instance or class.</td>
+	</tr>
+</table>
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#klass:extend">klass:extend (name)</a></td>
-	<td class="summary">
-
-</td>
+	<td class="summary">Extend a class.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#klass:isinstance">klass:isinstance (c)</a></td>
-	<td class="summary">
-
-</td>
+	<td class="summary">Test if this object is an instance of a class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#klass:init">klass:init (...)</a></td>
+	<td class="summary">Instance initializer.</td>
 	</tr>
 </table>
 <h2><a href="#Metamethods">Metamethods</a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#klass:__call">klass:__call (...)</a></td>
-	<td class="summary">
-
-</td>
+	<td class="summary">Construct a new instance.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#klass:__tostring">klass:__tostring ()</a></td>
-	<td class="summary">
-
-</td>
+	<td class="summary">Get a string representation of this instance.</td>
 	</tr>
 </table>
 
@@ -87,6 +103,54 @@
 <br/>
 
 
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "klass.__name"></a>
+    <strong>klass.__name</strong>
+    </dt>
+    <dd>
+    Name of the class.
+
+
+    <ul>
+        <li><span class="parameter">__name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "klass.__super"></a>
+    <strong>klass.__super</strong>
+    </dt>
+    <dd>
+    Superclass of the instance or class.
+
+
+    <ul>
+        <li><span class="parameter">__super</span>
+            <span class="types"><a class="type" href="index.html#">klass</a></span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="Methods"></a>Methods</h2>
 
     <dl class="function">
@@ -95,18 +159,14 @@
     <strong>klass:extend (name)</strong>
     </dt>
     <dd>
-
-
-
+    Extend a class.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-
-
-
+         Name of the new class.
         </li>
     </ul>
 
@@ -114,13 +174,21 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-
-
-
+        New class table.
     </ol>
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> sub = klass:extend(<span class="string">"sub"</span>)
+<span class="keyword">function</span> sub:init(x, y)
+    <span class="comment">-- constructor
+</span><span class="keyword">end</span>
+<span class="keyword">function</span> sub:dosomething()
+    <span class="comment">-- do something here
+</span><span class="keyword">end</span></pre>
+    </ul>
 
 </dd>
     <dt>
@@ -128,18 +196,14 @@
     <strong>klass:isinstance (c)</strong>
     </dt>
     <dd>
-
-
-
+    Test if this object is an instance of a class.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">c</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-
-
-
+         Class.
         </li>
     </ul>
 
@@ -147,10 +211,41 @@
     <ol>
 
            <span class="types"><span class="type">boolean</span></span>
-
-
-
+        True if it is an instance, false otherwise.
     </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> sub = klass:extend(<span class="string">"sub"</span>)
+<span class="keyword">local</span> klsinst = klass()
+<span class="keyword">local</span> subinst = sub()
+<span class="global">print</span>(subinst:isinstance(klass)) <span class="comment">--&gt; true
+</span><span class="global">print</span>(subinst:isinstance(sub))   <span class="comment">--&gt; true
+</span><span class="global">print</span>(klsinst:isinstance(klass)) <span class="comment">--&gt; true
+</span><span class="global">print</span>(klsinst:isinstance(sub))   <span class="comment">--&gt; false</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "klass:init"></a>
+    <strong>klass:init (...)</strong>
+    </dt>
+    <dd>
+    Instance initializer. </p>
+
+<p> The default implementation does nothing.
+ It should be overridden in subclasses to do something useful.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         Arguments passed to <a href="index.html#klass:__call">__call</a>.
+        </li>
+    </ul>
+
 
 
 
@@ -165,18 +260,14 @@
     <strong>klass:__call (...)</strong>
     </dt>
     <dd>
-
-
-
+    Construct a new instance.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">...</span>
             <span class="types"><span class="type">any</span></span>
-
-
-
+         Arguments to be passed to <a href="index.html#klass:init">init</a>.
         </li>
     </ul>
 
@@ -184,13 +275,20 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-
-
-
+        New instance.
     </ol>
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> sub = klass:extend(<span class="string">"sub"</span>)
+<span class="keyword">function</span> sub:init(x)
+    self.x = x
+<span class="keyword">end</span>
+<span class="keyword">local</span> inst = sub(<span class="string">"foobar"</span>)
+<span class="global">print</span>(inst.x) <span class="comment">--&gt; foobar</span></pre>
+    </ul>
 
 </dd>
     <dt>
@@ -198,9 +296,10 @@
     <strong>klass:__tostring ()</strong>
     </dt>
     <dd>
+    Get a string representation of this instance. </p>
 
-
-
+<p> The default implementation returns "<NAME>".
+ It should be overridden in subclasses if more information is desired.
 
 
 
@@ -208,9 +307,7 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-
-
-
+        String representation.
     </ol>
 
 
@@ -224,7 +321,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2017-07-06 21:06:17 </i>
+<i style="float:right;">Last updated 2017-09-09 22:33:19 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
